@@ -1,17 +1,7 @@
 const express = require('express')
 const app = express()
 const path = require("path")
-const mongoose = require('mongoose')
-const campground = require('./models/campground')
 
-main().catch(err => console.log(err));
-async function main() {
-  await mongoose.connect('mongodb://localhost:27017/campground',{
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  });
-  console.log("Connection Open")
-}
 
 
 app.set('view engine','ejs')
