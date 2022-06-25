@@ -4,9 +4,10 @@ const path = require("path")
 const mongoose = require('mongoose')
 const Campground = require('./models/campground')
 const methodOverride = require('method-override')
-
+const ejsMate = require('ejs-mate')
 
 app.use(express.json())
+app.engine('ejs',ejsMate)
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({extended:true}))
 
