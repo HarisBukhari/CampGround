@@ -8,6 +8,12 @@
 </head>
 <body>
     <h1>Camp</h1>
+    <a href="/campgrounds/new">Add New Camp</a>
+    <ul>
+    <% for (cam of campground) {%> 
+        <li><a href="/campgrounds/<%=cam._id %> "><%= cam.title %></a> </li>
+    <% } %> 
+    </ul>
     
 </body>
 </html>
