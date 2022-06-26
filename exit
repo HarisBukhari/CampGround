@@ -1,0 +1,89 @@
+[33mcommit 1a1350802344c3fa6409ee6be4dc54c5dd9b0735[m[33m ([m[1;36mHEAD[m[33m)[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sun Jun 26 12:38:10 2022 +0500
+
+    Update show.ejs
+
+[33mcommit f7bfbb70c1466801c0eaa053a69bb695f81eacb8[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sun Jun 26 11:39:03 2022 +0500
+
+    Update footer.ejs
+
+[33mcommit 2cc2a6ae62d32b769f13c12b4ed409eb7baabe90[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sun Jun 26 11:19:04 2022 +0500
+
+    update
+
+[33mcommit 963b3c60733d5116686a78e244a0ee0c23a354c4[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sat Jun 25 20:48:37 2022 +0500
+
+    Update
+
+[33mcommit 778d87130342ec41cf0b21ff267b6f145755f0e4[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sat Jun 25 18:43:06 2022 +0500
+
+    update
+
+[33mcommit ebcd16c1cd2a3b94536cda07b849cefab335998f[m
+Merge: be6fb5b a13b7a6
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sat Jun 25 13:16:08 2022 +0500
+
+    Merge branch 'main' into Mongo_Crud
+
+[33mcommit a13b7a658f9dc37324caddf11a5adee323848bf3[m
+Merge: ce5872b 20b2970
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sat Jun 25 13:14:23 2022 +0500
+
+    Merge pull request #1 from HarisBukhari/Mongo_Crud
+    
+    update
+
+[33mcommit be6fb5b7110bcb729347654b8b853ce66fd75b81[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sat Jun 25 13:12:19 2022 +0500
+
+    Partial Crud Done
+
+[33mcommit 20b2970f8fff28a99a71eae164bcbf765e0c4c5b[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sat Jun 25 12:20:59 2022 +0500
+
+    update
+
+[33mcommit ce5872ba43056595f780757636533748157991cf[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Sat Jun 25 10:26:46 2022 +0500
+
+    update
+    
+    Ook Mongo Crud
+
+[33mcommit 62e78a2544f3fd8623bf314494fc33a4200f18e3[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Fri Jun 24 23:58:41 2022 +0500
+
+    update
+
+[33mcommit cbe37778dc06310da2e349d0bfde185dfd3a52ab[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Fri Jun 24 23:40:02 2022 +0500
+
+    Files
+
+[33mcommit c9f576f73e7fc27a7d1c2068c3ed31d580f825c0[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Fri Jun 24 23:04:58 2022 +0500
+
+    Main App
+
+[33mcommit 1e30d599d454084a256e3edb226a8999b193c6bd[m
+Author: Syed Haris Bukhari <45495476+HarisBukhari@users.noreply.github.com>
+Date:   Fri Jun 24 22:12:20 2022 +0500
+
+    Initial commit
