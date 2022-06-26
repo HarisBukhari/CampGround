@@ -25,20 +25,19 @@ async function main() {
   console.log("Connection Open")
 }
 
-
 app.get('/campgrounds',async (req,res)=>{
-    const campground = await Campground.find({})
-    res.render('campground/index',{campground})
+    const campgrounds = await Campground.find({})
+    res.render('campground/index',{campgrounds})
 })
 
 app.post('/campgrounds',async (req,res)=>{
-  const camp = new Campground(req.body)
-  await camp.save()
-  res.redirect(`/campgrounds/${camp._id}`)
+  const campground = new Campground(req.body.campground)
+  await campground.save()
+  res.redirect(`/campgrounds/${campground._id}`)
 })
 
 app.put('/campgrounds/:id',async (req,res)=>{
-  const campground =await Campground.findByIdAndUpdate(req.params.id,{...req.body})
+  const campground =await Campground.findByIdAndUpdate(req.params.id,{...req.body.campground})
   res.redirect(`/campgrounds/${campground._id}`)
 })
 
