@@ -8,12 +8,12 @@ const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const {campgroundSchema} =require('./utils/joischemas')
+const Review = require('./models/review')
 
 app.use(express.json())
 app.engine('ejs',ejsMate)
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({extended:true}))
-
 
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'/views'))
@@ -39,13 +39,25 @@ const validateCampground = (req, res, next) => {
   }
 }
 
-//Routes
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
+  if (error) {
+      const msg = error.details.map(el => el.message).join(',')
+      throw new ExpressError(msg, 400)
+  } else {
+      next();
+  }
+}
+
+////////Routes
+//camps
 app.get('/campgrounds',catchAsync(async (req,res)=>{
     const campgrounds = await Campground.find({})
     res.render('campground/index',{campgrounds})
 }))
 
 app.post('/campgrounds',validateCampground,catchAsync(async (req,res)=>{
+  // if (!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
   const campground = new Campground(req.body.campground)
   await campground.save()
   res.redirect(`/campgrounds/${campground._id}`)
@@ -75,9 +87,22 @@ app.delete('/campgrounds/:id',catchAsync(async (req,res)=>{
   res.redirect(`/campgrounds/`)
 }))
 
-app.get('*',(req,res)=>{
-    res.render('home')
-})
+//Review
+app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res) => {
+  const campground = await Campground.findById(req.params.id);
+  const review = new Review(req.body.review);
+  campground.reviews.push(review);
+  await review.save();
+  await campground.save();
+  res.redirect(`/campgrounds/${campground._id}`);
+}))
+
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+  const { id, reviewId } = req.params;
+  await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+  await Review.findByIdAndDelete(reviewId);
+  res.redirect(`/campgrounds/${id}`);
+}))
 
 
 //Middlewares
@@ -91,7 +116,10 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('error', { err })
 })
 
-
+//*
+app.get('*',(req,res)=>{
+  res.render('home')
+})
 
 //Server
 app.listen(3000,(req,res)=>{
