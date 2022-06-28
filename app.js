@@ -8,6 +8,7 @@ const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const {campgroundSchema} =require('./utils/joischemas')
+const {reviewSchema} =require('./utils/joischemas')
 const Review = require('./models/review')
 
 app.use(express.json())
@@ -78,7 +79,7 @@ app.get('/campgrounds/edit/:id',catchAsync(async (req,res)=>{
 }))
 
 app.get('/campgrounds/:id',catchAsync(async (req,res)=>{
-    const campground = await Campground.findById(req.params.id)
+    const campground = await Campground.findById(req.params.id).populate('reviews');
     res.render('campground/show',{campground})
 }))
 
