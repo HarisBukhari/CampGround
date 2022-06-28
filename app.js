@@ -84,7 +84,7 @@ app.get('/campgrounds/:id',catchAsync(async (req,res)=>{
 }))
 
 app.delete('/campgrounds/:id',catchAsync(async (req,res)=>{
-  const campground = await Campground.findByIdAndRemove(req.params.id)
+  const campground = await Campground.findOneAndDelete(req.params.id)
   res.redirect(`/campgrounds/`)
 }))
 
