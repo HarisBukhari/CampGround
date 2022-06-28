@@ -39,8 +39,6 @@ const validateCampground = (req, res, next) => {
   }
 }
 
-
-
 //Routes
 app.get('/campgrounds',catchAsync(async (req,res)=>{
     const campgrounds = await Campground.find({})
