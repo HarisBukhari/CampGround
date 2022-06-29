@@ -38,7 +38,10 @@ async function main() {
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
 
-//Middlewares
+app.get('/', (req, res) => {
+  res.render('home')
+});
+
 app.all('*', (req, res, next) => {
   next(new ExpressError('Page Not Found', 404))
 })
@@ -49,10 +52,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('error', { err })
 })
 
-//*
-app.get('*',(req,res)=>{
-  res.render('home')
-})
 
 //Server
 app.listen(3000,(req,res)=>{

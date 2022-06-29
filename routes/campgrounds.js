@@ -3,9 +3,7 @@ const router = express.Router()
 const Campground = require('../models/campground')
 const catchAsync = require('../utils/catchAsync')
 const {campgroundSchema} =require('../utils/joischemas')
-const Review = require('../models/review');
-const { reviewSchema } = require('../schemas.js');
-const { campgroundSchema } = require('../schemas.js')
+
 
 const validateCampground = (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body);
@@ -17,38 +15,38 @@ const validateCampground = (req, res, next) => {
     }
   }
 
-router.get('/campgrounds',catchAsync((req,res)=>{
+router.get('/',catchAsync(async(req,res)=>{
     const campgrounds = await Campground.find({})
     res.render('campground/index',{campgrounds})
 }))
 
-router.post('/campgrounds',validateCampground,catchAsync((req,res)=>{
+router.post('/',validateCampground,catchAsync(async(req,res)=>{
   // if (!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
   const campground = new Campground(req.body.campground)
   await campground.save()
   res.redirect(`/campgrounds/${campground._id}`)
 }))
 
-router.put('/campgrounds/:id',validateCampground,catchAsync((req,res)=>{
+router.put('/:id',validateCampground,catchAsync(async(req,res)=>{
   const campground =await Campground.findByIdAndUpdate(req.params.id,{...req.body.campground})
   res.redirect(`/campgrounds/${campground._id}`)
 }))
 
-router.get('/campgrounds/new',(req,res)=>{
+router.get('/new',(req,res)=>{
   res.render('campground/new')
 })
 
-router.get('/campgrounds/edit/:id',catchAsync((req,res)=>{
+router.get('/:id/edit',catchAsync(async(req,res)=>{
   const campground =await Campground.findById(req.params.id)
   res.render('campground/edit',{campground})
 }))
 
-router.get('/campgrounds/:id',catchAsync((req,res)=>{
+router.get('/:id',catchAsync(async(req,res)=>{
     const campground = await Campground.findById(req.params.id).populate('reviews');
     res.render('campground/show',{campground})
 }))
 
-router.delete('/campgrounds/:id',catchAsync((req,res)=>{
+router.delete('/:id',catchAsync(async(req,res)=>{
   const campground = await Campground.findOneAndDelete(req.params.id)
   res.redirect(`/campgrounds/`)
 }))
