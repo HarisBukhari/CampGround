@@ -7,17 +7,9 @@ const methodOverride = require('method-override')
 const ExpressError = require('./utils/ExpressError')
 const session = require('express-session');
 const flash = require('connect-flash');
-
 const campgrounds = require('./routes/campgrounds');
 const reviews = require('./routes/reviews');
 
-app.use(express.json())
-app.engine('ejs',ejsMate)
-app.use(methodOverride('_method'))
-app.use(express.urlencoded({extended:true}))
-
-app.set('view engine','ejs')
-app.set('views',path.join(__dirname,'/views'))
 
 //Mongo Connection
 main().catch(err => console.log(err));
@@ -29,10 +21,38 @@ async function main() {
   console.log("Connection Open")
 }
 
-//Methods
+//Session
+const sessionConfig = {
+  secret: 'thisshouldbeabettersecret!',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+      httpOnly: true,
+      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}
 
 
+app.use(express.json())
+app.engine('ejs',ejsMate)
+app.use(methodOverride('_method'))
+app.use(express.urlencoded({extended:true}))
 
+app.set('view engine','ejs')
+app.set('views',path.join(__dirname,'/views'))
+app.use(session(sessionConfig))
+app.use(flash());
+
+//For Public Dir
+app.use(express.static(path.join(__dirname, 'public')))
+
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+})
 
 ////////Routes
 app.use('/campgrounds', campgrounds)
