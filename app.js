@@ -75,7 +75,7 @@ app.use((err, req, res, next) => {
 
 //Server
 app.listen(3000,(req,res)=>{
-    console.log('Server is running port 3000h')
+    console.log('Server is running port 3000')
 })
 
 
