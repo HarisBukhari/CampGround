@@ -10,7 +10,6 @@ const flash = require('connect-flash')
 const campgrounds = require('./routes/campgrounds')
 const reviews = require('./routes/reviews')
 
-
 //Mongo Connection
 main().catch(err => console.log(err))
 async function main() {
@@ -33,7 +32,6 @@ const sessionConfig = {
   }
 }
 
-
 app.use(express.json())
 app.engine('ejs',ejsMate)
 app.use(methodOverride('_method'))
@@ -46,7 +44,6 @@ app.use(flash());
 
 //For Public Dir
 app.use(express.static(path.join(__dirname, 'public')))
-
 
 app.use((req, res, next) => {
   res.locals.success = req.flash('success')
@@ -72,31 +69,9 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render('error', { err })
 })
 
-
 //Server
 app.listen(3000,(req,res)=>{
     console.log('Server is running port 3000')
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //npx Nodemon app.js
