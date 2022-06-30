@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 const Review = require('./review')
 const Schema = mongoose.Schema;
 
@@ -26,4 +26,4 @@ CampgroundSchema.post('findOneAndDelete', async function (doc) {
     }
 })
 
-module.exports = mongoose.model('Campground', CampgroundSchema);
+module.exports = mongoose.model('Campground', CampgroundSchema)
