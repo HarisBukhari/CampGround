@@ -3,6 +3,7 @@ const router = express.Router()
 const Campground = require('../models/campground')
 const catchAsync = require('../utils/catchAsync')
 const {campgroundSchema} =require('../utils/joischemas')
+const {isLoggedIn} = require('./middleware')
 
 
 const validateCampground = (req, res, next) => {
@@ -20,7 +21,7 @@ router.get('/',catchAsync(async(req,res)=>{
     res.render('campground/index',{campgrounds})
 }))
 
-router.post('/',validateCampground,catchAsync(async(req,res)=>{
+router.post('/',isLoggedIn,validateCampground,catchAsync(async(req,res)=>{
   // if (!req.body.campground) throw new ExpressError('Invalid Campground Data', 400);
   const campground = new Campground(req.body.campground)
   await campground.save()
@@ -28,17 +29,17 @@ router.post('/',validateCampground,catchAsync(async(req,res)=>{
   res.redirect(`/campgrounds/${campground._id}`)
 }))
 
-router.put('/:id',validateCampground,catchAsync(async(req,res)=>{
+router.put('/:id',isLoggedIn,validateCampground,catchAsync(async(req,res)=>{
   const campground =await Campground.findByIdAndUpdate(req.params.id,{...req.body.campground})
   req.flash('success', 'Successfully Updated Campground!');
   res.redirect(`/campgrounds/${campground._id}`)
 }))
 
-router.get('/new',(req,res)=>{
+router.get('/new',isLoggedIn,(req,res)=>{
   res.render('campground/new')
 })
 
-router.get('/:id/edit',catchAsync(async(req,res)=>{
+router.get('/:id/edit',isLoggedIn,catchAsync(async(req,res)=>{
   const campground =await Campground.findById(req.params.id)
   if (!campground) {
     req.flash('error', 'Cannot find that campground!')
@@ -56,7 +57,7 @@ router.get('/:id',catchAsync(async(req,res)=>{
     res.render('campground/show',{campground})
 }))
 
-router.delete('/:id',catchAsync(async(req,res)=>{
+router.delete('/:id',isLoggedIn,catchAsync(async(req,res)=>{
   const campground = await Campground.findOneAndDelete(req.params.id)
   req.flash('success', 'Successfully Deleted Campground!')
   res.redirect(`/campgrounds/`)

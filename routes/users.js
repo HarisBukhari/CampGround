@@ -31,12 +31,22 @@ router.get('/login', (req, res) => {
     res.render('users/login')
 })
 
-router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
+//Use keepSessionInfo: true for new passport version 
+router.post('/login', passport.authenticate('local', { failureFlash: true, failureRedirect: '/login', failureMessage: true, keepSessionInfo: true, }), (req, res) => {
     req.flash('success', 'welcome back!')
     //Passport_!!req!!_Session_Redirect
     const redirectUrl = req.session.returnTo || '/campgrounds'
     delete req.session.returnTo
     res.redirect(redirectUrl)
+})
+
+router.get('/logout', (req, res) => {
+    //For New Passport version use this callback
+    req.logOut(err => {
+        if (err) return next(err)
+        req.flash('success', "Goodbye!")
+        res.redirect('/campgrounds')
+    })
 })
 
 module.exports = router
