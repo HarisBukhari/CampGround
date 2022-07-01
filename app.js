@@ -9,6 +9,10 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const campgrounds = require('./routes/campgrounds')
 const reviews = require('./routes/reviews')
+const users = require('./routes/users')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+const User = require('./models/user')
 
 //Mongo Connection
 main().catch(err => console.log(err))
@@ -36,11 +40,20 @@ app.use(express.json())
 app.engine('ejs',ejsMate)
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({extended:true}))
-
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'/views'))
+
+//Session and Flash
 app.use(session(sessionConfig))
 app.use(flash());
+
+//Passport
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 //For Public Dir
 app.use(express.static(path.join(__dirname, 'public')))
@@ -54,6 +67,7 @@ app.use((req, res, next) => {
 ////////Routes
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
+app.use('/', users)
 
 app.get('/', (req, res) => {
   res.render('home')
