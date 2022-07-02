@@ -38,7 +38,7 @@ router.get('/:id',catchAsync(async(req,res)=>{
   res.render('campground/show',{campground})
 }))
 
-router.get('/:id/edit',isAuthor,isLoggedIn,catchAsync(async(req,res)=>{
+router.get('/:id/edit', isLoggedIn, isAuthor,catchAsync(async(req,res)=>{
   const campground =await Campground.findById(req.params.id)
   if (!campground) {
     req.flash('error', 'Cannot find that campground!')
@@ -47,14 +47,16 @@ router.get('/:id/edit',isAuthor,isLoggedIn,catchAsync(async(req,res)=>{
   res.render('campground/edit',{campground})
 }))
 
-router.put('/:id',isAuthor,isLoggedIn,validateCampground,catchAsync(async(req,res)=>{
+router.put('/:id', isLoggedIn, isAuthor,validateCampground,catchAsync(async(req,res)=>{
   const campground =await Campground.findByIdAndUpdate(req.params.id,{...req.body.campground})
   req.flash('success', 'Successfully Updated Campground!')
   res.redirect(`/campgrounds/${campground._id}`)
 }))
 
-router.delete('/:id',isAuthor,isLoggedIn,catchAsync(async(req,res)=>{
-  const campground = await Campground.findOneAndDelete(req.params.id)
+router.delete('/:id', isLoggedIn, isAuthor,catchAsync(async(req,res)=>{
+  //Save the ID in variable then find and delete (!one line code: Unable to delete)
+  const { id } = req.params
+  await Campground.findByIdAndDelete(id)
   req.flash('success', 'Successfully Deleted Campground!')
   res.redirect(`/campgrounds/`)
 }))
