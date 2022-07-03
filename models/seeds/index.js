@@ -2,9 +2,6 @@ const mongoose = require('mongoose')
 const Campground = require('../campground')
 const cities = require('./PKCities')
 const {places,descriptors} = require('./seedHelper')
-const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding")
-const mapBoxToken = 'pk.eyJ1IjoiaGFyaXNidWtoYXJpODYiLCJhIjoiY2w1NWQxa2UyMTd4cTNkbXJteHI2Nzh4YiJ9.9BLLnfvhbX9OX9vy2QoFQw'
-const geocoder = mbxGeocoding({ accessToken: mapBoxToken })
 
 main().catch(err => console.log(err));
 async function main() {
