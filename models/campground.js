@@ -1,10 +1,21 @@
 const mongoose = require('mongoose')
 const Review = require('./review')
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
+
+const ImageSchema = new Schema({
+    url: String,
+    filename: String
+})
+
+// https://res.cloudinary.com/douqbebwk/image/upload/w_300/v1600113904/YelpCamp/gxgle1ovzd2f3dgcpass.png
+//For thumbnail We Uses Cloudinary API image builder
+ImageSchema.virtual('thumbnail').get(function () {
+    return this.url.replace('/upload', '/upload/w_200');
+})
 
 const CampgroundSchema = new Schema({
     title: String,
-    image: String,
+    images: [ImageSchema],
     price: Number,
     description: String,
     location: String,
