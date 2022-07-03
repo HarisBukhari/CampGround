@@ -2,6 +2,9 @@ const mongoose = require('mongoose')
 const Campground = require('../campground')
 const cities = require('./cities')
 const {places,descriptors} = require('./seedHelper')
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding")
+const mapBoxToken = process.env.MAPBOX_TOKEN
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken })
 
 main().catch(err => console.log(err));
 async function main() {
@@ -19,9 +22,14 @@ const seedDB = async ()=>{
     for (let i=0;i<50;i++){
         const rand = Math.floor(Math.random()*100)
         const price = Math.floor(Math.random() * 20) + 10
+        const geoData = await geocoder.forwardGeocode({
+          query: `${cities[rand].city},${cities[rand].state}`,
+          limit: 1
+      }).send()
         const camps = new Campground ({
             location: `${cities[rand].city},${cities[rand].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
+            geometry: geoData.body.features[0].geometry,
             author: `62c06482e36e08796755d1b4`,
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
             price,
