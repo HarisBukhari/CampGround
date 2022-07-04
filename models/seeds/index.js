@@ -2,10 +2,13 @@ const mongoose = require('mongoose')
 const Campground = require('../campground')
 const cities = require('./PKCities')
 const {places,descriptors} = require('./seedHelper')
+require('dotenv').config()
+const dburl = process.env.DB_URL
+
 
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/campground',{
+  await mongoose.connect(dburl,{
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
@@ -29,7 +32,7 @@ const seedDB = async ()=>{
                   cities[rand].latitude,
               ]
           },
-            author: `62c06482e36e08796755d1b4`,
+            author: `62c32df583771ec2f884e7d8`,
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
             price,
             images: [
