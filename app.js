@@ -37,6 +37,7 @@ const sessionConfig = {
   resave: false,
   saveUninitialized: true,
   cookie: {
+      name: 'session',
       httpOnly: true,
       // secure: true,
       expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
