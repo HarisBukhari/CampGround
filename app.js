@@ -13,6 +13,7 @@ const users = require('./routes/users')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
+const mongoSanitize = require('express-mongo-sanitize')
 
 //Mongo Connection
 main().catch(err => console.log(err))
@@ -69,6 +70,11 @@ app.use((req, res, next) => {
 app.use('/campgrounds', campgrounds)
 app.use('/campgrounds/:id/reviews', reviews)
 app.use('/', users)
+app.use(
+  mongoSanitize({
+    replaceWith: '_',
+  }),
+)
 
 app.get('/', (req, res) => {
   res.render('home')
