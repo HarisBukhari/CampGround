@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV !== "production") {
-  require('dotenv').config();
+  require('dotenv').config()
 }
 
 const express = require('express')
@@ -32,20 +32,18 @@ async function main() {
   console.log("Connection Open")
 }
 
-//Session
-
-const secret = process.env.SECRET || 'codeCow!';
-
+const secret = process.env.SECRET || 'codeCow!'
 const store = new MongoDBStore({
     url: dburl,
     secret,
     touchAfter: 24 * 60 * 60
-});
+})
 
 store.on("error", function (e) {
     console.log("SESSION STORE ERROR", e)
 })
 
+//Session
 const sessionConfig = {
     store,
     name: 'session',
@@ -95,7 +93,7 @@ const connectSrcUrls = [
   "https://b.tiles.mapbox.com/",
   "https://events.mapbox.com/",
 ];
-const fontSrcUrls = [];
+const fontSrcUrls = []
 app.use(
   helmet.contentSecurityPolicy({
       directives: {
@@ -115,15 +113,14 @@ app.use(
           fontSrc: ["'self'", ...fontSrcUrls],
       },
   })
-);
+)
 
 //Passport
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
 
 //For Public Dir
 app.use(express.static(path.join(__dirname, 'public')))
@@ -132,7 +129,7 @@ app.use((req, res, next) => {
   res.locals.currentUser = req.user
   res.locals.success = req.flash('success')
   res.locals.error = req.flash('error')
-  next();
+  next()
 })
 
 ////////Routes
