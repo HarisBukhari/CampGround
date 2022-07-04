@@ -13,6 +13,8 @@ const users = require('./routes/users')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
+const helmet = require('helmet')
+const mongoSanitize = require('express-mongo-sanitize')
 
 //Mongo Connection
 main().catch(err => console.log(err))
@@ -42,10 +44,56 @@ app.use(methodOverride('_method'))
 app.use(express.urlencoded({extended:true}))
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname,'/views'))
+app.use(mongoSanitize({
+  replaceWith: '_'
+}))
 
 //Session and Flash
 app.use(session(sessionConfig))
 app.use(flash());
+const scriptSrcUrls = [
+  "https://stackpath.bootstrapcdn.com/",
+  "https://api.tiles.mapbox.com/",
+  "https://api.mapbox.com/",
+  "https://kit.fontawesome.com/",
+  "https://cdnjs.cloudflare.com/",
+  "https://cdn.jsdelivr.net",
+];
+const styleSrcUrls = [
+  "https://kit-free.fontawesome.com/",
+  "https://stackpath.bootstrapcdn.com/",
+  "https://api.mapbox.com/",
+  "https://api.tiles.mapbox.com/",
+  "https://fonts.googleapis.com/",
+  "https://use.fontawesome.com/",
+];
+const connectSrcUrls = [
+  "https://api.mapbox.com/",
+  "https://a.tiles.mapbox.com/",
+  "https://b.tiles.mapbox.com/",
+  "https://events.mapbox.com/",
+];
+const fontSrcUrls = [];
+app.use(
+  helmet.contentSecurityPolicy({
+      directives: {
+          defaultSrc: [],
+          connectSrc: ["'self'", ...connectSrcUrls],
+          scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+          styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+          workerSrc: ["'self'", "blob:"],
+          objectSrc: [],
+          imgSrc: [
+              "'self'",
+              "blob:",
+              "data:",
+              "https://res.cloudinary.com/harisbukhari86/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+              "https://images.unsplash.com/",
+          ],
+          fontSrc: ["'self'", ...fontSrcUrls],
+      },
+  })
+);
 
 //Passport
 app.use(passport.initialize());
