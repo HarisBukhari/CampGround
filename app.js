@@ -55,6 +55,34 @@ app.set('views',path.join(__dirname,'/views'))
 //Session and Flash
 app.use(session(sessionConfig))
 app.use(flash())
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          'data:',
+          'localhost',
+          'main-domain.com',
+          '*.main-domain.com',
+          "https://stackpath.bootstrapcdn.com/",
+          "https://api.tiles.mapbox.com/",
+          "https://api.mapbox.com/",
+          "https://kit.fontawesome.com/",
+          "https://cdnjs.cloudflare.com/",
+          "https://cdn.jsdelivr.net",
+          "https://api.mapbox.com/",
+          "https://a.tiles.mapbox.com/",
+          "https://b.tiles.mapbox.com/",
+          "https://events.mapbox.com/"
+        ],
+      },
+    },
+  })
+)
+
 // app.use(helmet({}))
 
 // //Helmet Policies
