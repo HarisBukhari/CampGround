@@ -25,7 +25,7 @@ const MongoDBStore = require("connect-mongo")(session)
 //Mongo Connection
 main().catch(err => console.log(err))
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/campground',{
+  await mongoose.connect(dburl,{
     useNewUrlParser: true,
     useUnifiedTopology: true
   });
@@ -33,15 +33,31 @@ async function main() {
 }
 
 //Session
+
+const secret = process.env.SECRET || 'codeCow!';
+
+const store = new MongoDBStore({
+    url: dburl,
+    secret,
+    touchAfter: 24 * 60 * 60
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
 const sessionConfig = {
-  secret: 'thisshouldbeabettersecret!',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-      httpOnly: true,
-      expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-      maxAge: 1000 * 60 * 60 * 24 * 7
-  }
+    store,
+    name: 'session',
+    secret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        // secure: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
 }
 
 app.use(express.json())
