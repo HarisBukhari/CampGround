@@ -19,6 +19,8 @@ const LocalStrategy = require('passport-local')
 const User = require('./models/user')
 const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize')
+const dburl = process.env.DB_URL
+const MongoDBStore = require("connect-mongo")(session)
 
 //Mongo Connection
 main().catch(err => console.log(err))
