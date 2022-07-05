@@ -44,7 +44,8 @@ const seedDB = async ()=>{
                   url: 'https://res.cloudinary.com/harisbukhari86/image/upload/v1656846762/YelpCamp/1_g3bpjs.jpg',
                   filename: 'YelpCamp/2'
               }
-          ]
+          ],
+          reviews: [`62c32fef83771ec2f884e80c`,`62c3307083771ec2f884e84a`,`62c330e183771ec2f884e887`,`62c331de83771ec2f884e8b4`]
         })
         await camps.save()
     }
